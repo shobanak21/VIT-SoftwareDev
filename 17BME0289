@@ -1,0 +1,262 @@
+import array
+import math
+
+row = 5
+col = 5
+
+matrix = [[0 for col in range(col)] for row in range(row)]
+
+for i in range(5):
+    for j in range(5):
+        matrix[i][j] = ''
+
+A = input('Player 1 input: ' )
+A = A.strip()
+A = A.split(", ")
+
+for k in range(5):
+    matrix[4][k] = 'A-'+A[k]
+
+print(matrix)
+
+B = input('Player 2 input: ' )
+B = B.strip()
+B = B.split(", ")
+
+for l in range(5):
+    matrix[0][l] = 'B-'+B[l]
+
+print(matrix)
+
+def find(pnt):
+    for i in range(5):
+        for j in range(5):
+            if(matrix[i][j] == pnt):
+                pnti = i
+                pntj = j
+                
+            else:
+                continue
+    return [pnti,pntj]
+            
+def MovePA(move):
+    move = move.strip()
+    move = move.split(':')
+    point = 'A-'+ move[0]
+    pos = move[1]
+    find(point)
+    i = find(point)[0]
+    j = find(point)[1]
+    matrix[i][j] = ''
+    if(pos == 'F' and i>0):
+        prevpoint = matrix[i-1][j].split('-')
+        prev = prevpoint[0]
+        if(prev == 'B' or matrix[i-1][j] == ''):
+            matrix[i-1][j] = point
+        else:
+            matrix[i-1][j] = matrix[i-1][j]
+            
+    if(pos == 'L' and j>0):
+        prevpoint = matrix[i][j-1].split('-')
+        prev = prevpoint[0]
+        if(prev == 'B' or matrix[i][j-1] == ''):
+            matrix[i][j-1] = point
+        else:
+            matrix[i][j-1] = matrix[i][j-1]
+            
+    if(pos == 'R' and j<4):
+        prevpoint = matrix[i][j+1].split('-')
+        prev = prevpoint[0]
+        if(prev == 'B' or matrix[i][j+1] == ''):
+            matrix[i][j+1] = point
+        else:
+            matrix[i][j+1] = matrix[i][j+1]
+            
+    if(pos == 'B' and i<4):
+        prevpoint = matrix[i+1][j].split('-')
+        prev = prevpoint[0]
+        if(prev == 'B' or matrix[i+1][j] == ''):
+            matrix[i+1][j] = point
+        else:
+            matrix[i+1][j] = matrix[i+1][j]
+    print(matrix)
+
+def MovePB(move):
+    move = move.strip()
+    move = move.split(':')
+    point = 'B-'+ move[0]
+    pos = move[1]
+    find(point)
+    i = find(point)[0]
+    j = find(point)[1]
+    matrix[i][j] = ''
+    if(pos == 'F' and i<4):
+        prevpoint = matrix[i+1][j].split('-')
+        prev = prevpoint[0]
+        if(prev == 'A' or matrix[i+1][j] == ''):
+            matrix[i+1][j] = point
+        else:
+            matrix[i+1][j] = matrix[i+1][j]
+            
+    if(pos == 'L' and j>0):
+        prevpoint = matrix[i][j-1].split('-')
+        prev = prevpoint[0]
+        if(prev == 'A' or matrix[i][j-1] == ''):
+            matrix[i][j-1] = point
+        else:
+            matrix[i][j-1] = matrix[i][j-1]
+            
+    if(pos == 'R' and j<4):
+        prevpoint = matrix[i][j+1].split('-')
+        prev = prevpoint[0]
+        if(prev == 'A' or matrix[i][j+1] == ''):
+            matrix[i][j+1] = point
+        else:
+            matrix[i][j+1] = matrix[i][j+1]
+            
+    if(pos == 'B' and i>0):
+        prevpoint = matrix[i-1][j].split('-')
+        prev = prevpoint[0]
+        if(prev == 'A' or matrix[i-1][j] == ''):
+            matrix[i-1][j] = point
+        else:
+            matrix[i-1][j] = matrix[i-1][j]
+    print(matrix)
+
+for i in range(5000):
+    if(i%2 == 0):
+        move = input('Player 1 Move: ')
+        MovePA(move)
+
+    else:
+        move = input('Player 2 Move: ')
+        MovePB(move)
+    R = []
+    for i in range(5):
+        for j in range(5):
+            if(matrix[i][j] == ''):
+                continue
+            else:
+                R.append(matrix[i][j])
+    for i in R:
+        count = 0
+        if( i == 'A-P1' or i == 'A-P2' or i == 'A-P3' or i == 'A-P4' or i == 'A-P5'):
+            count = count+1
+    if(count == 0):
+        print('B wins')
+        print('You are qualified for level 2')
+        break
+
+print('You are in level 2 now: ')
+
+row = 5
+col = 5
+
+matrix = [[0 for col in range(col)] for row in range(row)]
+
+for i in range(5):
+    for j in range(5):
+        matrix[i][j] = ''
+
+A = input('Player 1 input: ' )
+A = A.strip()
+A = A.split(", ")
+
+for k in range(2):
+    matrix[4][k] = 'A-'+A[k]
+
+print(matrix)
+
+B = input('Player 2 input: ' )
+B = B.strip()
+B = B.split(", ")
+
+for l in range(2):
+    matrix[0][l] = 'B-'+B[l]
+
+print(matrix)
+
+def MoveH1A(move):
+    move = move.strip()
+    move = move.split(':')
+    point = 'A-'+ move[0]
+    pos = move[1]
+    find(point)
+    i = find(point)[0]
+    j = find(point)[1]
+    matrix[i][j] = ''
+    if(pos == 'F' and i>1):
+        prevpoint = matrix[i-2][j].split('-')
+        prev = prevpoint[0]
+        if(prev == 'B' or matrix[i-2][j] == ''):
+            matrix[i-2][j] = point
+        else:
+            matrix[i-2][j] = matrix[i-2][j]
+            
+    if(pos == 'L' and j>1):
+        prevpoint = matrix[i][j-2].split('-')
+        prev = prevpoint[0]
+        if(prev == 'B' or matrix[i][j-2] == ''):
+            matrix[i][j-2] = point
+        else:
+            matrix[i][j-2] = matrix[i][j-2]
+            
+    if(pos == 'R' and j<3):
+        prevpoint = matrix[i][j+2].split('-')
+        prev = prevpoint[0]
+        if(prev == 'B' or matrix[i][j+2] == ''):
+            matrix[i][j+2] = point
+        else:
+            matrix[i][j+2] = matrix[i][j+2]
+            
+    if(pos == 'B' and i<3):
+        prevpoint = matrix[i+2][j].split('-')
+        prev = prevpoint[0]
+        if(prev == 'B' or matrix[i+2][j] == ''):
+            matrix[i+2][j] = point
+        else:
+            matrix[i+2][j] = matrix[i+2][j]
+    print(matrix)
+
+def MoveH1B(move):
+    move = move.strip()
+    move = move.split(':')
+    point = 'B-'+ move[0]
+    pos = move[1]
+    find(point)
+    i = find(point)[0]
+    j = find(point)[1]
+    matrix[i][j] = ''
+    if(pos == 'F' and i<3):
+        prevpoint = matrix[i+2][j].split('-')
+        prev = prevpoint[0]
+        if(prev == 'A' or matrix[i+2][j] == ''):
+            matrix[i+2][j] = point
+        else:
+            matrix[i+2][j] = matrix[i+2][j]
+            
+    if(pos == 'L' and j>1):
+        prevpoint = matrix[i][j-2].split('-')
+        prev = prevpoint[0]
+        if(prev == 'A' or matrix[i][j-2] == ''):
+            matrix[i][j-2] = point
+        else:
+            matrix[i][j-2] = matrix[i][j-2]
+            
+    if(pos == 'R' and j<3):
+        prevpoint = matrix[i][j+2].split('-')
+        prev = prevpoint[0]
+        if(prev == 'A' or matrix[i][j+2] == ''):
+            matrix[i][j+2] = point
+        else:
+            matrix[i][j+2] = matrix[i][j+2]
+            
+    if(pos == 'B' and i>1):
+        prevpoint = matrix[i-2][j].split('-')
+        prev = prevpoint[0]
+        if(prev == 'A' or matrix[i-2][j] == ''):
+            matrix[i-2][j] = point
+        else:
+            matrix[i-2][j] = matrix[i-2][j]
+    print(matrix)
+
